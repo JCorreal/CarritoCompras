@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+     <navigation-rule>
+               <from-view-id>/index.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>Modificar_Producto</from-outcome>
+				<to-view-id>/Producto.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/index.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>Anadir</from-outcome>
+				<to-view-id>/AnadirCarrito.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+             
+            <navigation-rule>
+               <from-view-id>/AnadirCarrito.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>Reg_Venta</from-outcome>
+				<to-view-id>/index.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/AnadirCarrito.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>cantidad</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/Producto.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>SI</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/Producto.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>NO</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+                        
+            <navigation-rule>
+               <from-view-id>/Producto.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>PRECIO</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/RegistrarVenta.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>SinDatos</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/RegistrarVenta.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>SI</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+            
+            <navigation-rule>
+               <from-view-id>/RegistrarVenta.xhtml</from-view-id>
+			<navigation-case>
+				<from-outcome>NO</from-outcome>
+				<to-view-id>/Mensaje.xhtml</to-view-id>
+			</navigation-case>
+            </navigation-rule>
+
+                <managed-bean>
+			<managed-bean-name>AccesoDatosFactory</managed-bean-name>
+			<managed-bean-class>bll.AccesoDatosFactory</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>        
+                        
+                <managed-bean>
+			<managed-bean-name>ControladorProducto</managed-bean-name>
+			<managed-bean-class>bll.ControladorProducto</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>        
+                        
+                <managed-bean>
+			<managed-bean-name>ControladorVenta</managed-bean-name>
+			<managed-bean-class>bll.ControladorVenta</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                
+                <managed-bean>
+			<managed-bean-name>Error</managed-bean-name>
+			<managed-bean-class>bll.Error</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                
+                <managed-bean>
+			<managed-bean-name>Funciones</managed-bean-name>
+			<managed-bean-class>bll.Funciones</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                
+                <managed-bean>
+			<managed-bean-name>Conexion</managed-bean-name>
+			<managed-bean-class>dal.Conexion</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                
+                <managed-bean>
+			<managed-bean-name>Dao_General</managed-bean-name>
+			<managed-bean-class>dal.Dao_General</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>     
+                           
+                <managed-bean>
+			<managed-bean-name>Dao_Variables</managed-bean-name>
+			<managed-bean-class>dal.Dao_Variables</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                
+                <managed-bean>
+			<managed-bean-name>ProductoBD</managed-bean-name>
+			<managed-bean-class>dal.ProductoBD</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>   
+                                             
+                <managed-bean>
+			<managed-bean-name>VentaBD</managed-bean-name>
+			<managed-bean-class>dal.VentaBD</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+	        </managed-bean>                
+                 
+                <managed-bean>
+			<managed-bean-name>AnadirCarritoMBean</managed-bean-name>
+			<managed-bean-class>mbean.AnadirCarritoMBean</managed-bean-class>			
+			<managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>
+                                               
+                <managed-bean>
+			<managed-bean-name>ConsultarVentasMBean</managed-bean-name>
+			<managed-bean-class>mbean.ConsultarVentasMBean</managed-bean-class>			
+			<managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>
+                
+                <managed-bean>
+			<managed-bean-name>ProductoMBean</managed-bean-name>
+			<managed-bean-class>mbean.ProductoMBean</managed-bean-class>			
+			<managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>
+                            
+                <managed-bean>
+			<managed-bean-name>DetalleVentaMBean</managed-bean-name>
+			<managed-bean-class>mbean.DetalleVentaMBean</managed-bean-class>			
+                        <managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>
+                              
+                <managed-bean>
+			<managed-bean-name>MenuMBean</managed-bean-name>
+			<managed-bean-class>mbean.MenuMBean</managed-bean-class>
+            		<managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>
+                      
+                <managed-bean>
+			<managed-bean-name>RegistrarVentaMBean</managed-bean-name>
+			<managed-bean-class>mbean.RegistrarVentaMBean</managed-bean-class>			
+			<managed-bean-scope>request</managed-bean-scope>
+                </managed-bean>                
+                               
+                <managed-bean>
+			<managed-bean-name>DetalleVenta</managed-bean-name>
+			<managed-bean-class>modelo.DetalleVenta</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+		</managed-bean>
+                
+                <managed-bean>
+			<managed-bean-name>Producto</managed-bean-name>
+			<managed-bean-class>modelo.Producto</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+		</managed-bean>
+                
+                <managed-bean>
+			<managed-bean-name>Venta</managed-bean-name>
+			<managed-bean-class>modelo.Venta</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>			
+		</managed-bean>
+                
+</faces-config>

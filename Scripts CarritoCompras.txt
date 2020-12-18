@@ -1,0 +1,153 @@
+CREATE DATABASE bdtutorial CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE producto (
+  codigoProducto int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(100) NOT NULL,
+  precio decimal(18,2) NOT NULL,
+  foto varchar(50) DEFAULT 'Default.jpg');
+
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Portatil',1500000,'Portatil.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Impresora',419000,'Impresora.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Teclado y Mouse',79500,'Combo.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Diadema',25000,'Diadema.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Monitor',500000,'Monitor.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES ('Disco Solido',480000,'Disco.jpg');
+ 
+CREATE TABLE venta (
+  codigoVenta int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  cliente varchar(100) NOT NULL,
+  fecha timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP);
+  
+CREATE TABLE detalleventa (
+  codigoVenta int(11) NOT NULL,
+  codigoProducto int(11) NOT NULL,
+  cantidad decimal(18,2) NOT NULL,
+  descuento decimal(18,2) NOT NULL,
+  PRIMARY KEY (codigoVenta,codigoProducto),
+  KEY FK_DetalleVenta_Producto (codigoProducto),
+  CONSTRAINT FK_DetalleVenta_Producto FOREIGN KEY (codigoProducto) REFERENCES producto (codigoProducto),
+  CONSTRAINT FK_DetalleVenta_Venta FOREIGN KEY (codigoVenta) REFERENCES venta (codigoVenta)
+) ;
+
+CREATE PROCEDURE SPR_IU_PRODUCTO(
+  IN  p_codigoProducto  int,
+  IN  p_nombre          varchar(100),
+  IN  p_precio          decimal(18, 2),
+  OUT p_resultado       tinyint(1))
+BEGIN
+      DECLARE EXIT HANDLER
+      FOR SQLEXCEPTION
+         BEGIN            
+             SET p_resultado = -1;
+             ROLLBACK;
+         END;      
+     
+     IF (p_codigoProducto = 0) THEN
+          START TRANSACTION;
+          INSERT INTO producto(nombre,precio) VALUES (p_nombre, p_precio);          
+          SET p_resultado = 1;
+          COMMIT;
+     ELSE
+         START TRANSACTION;
+         UPDATE producto 
+         SET   nombre         = p_nombre, 
+               precio         = p_precio 
+         WHERE codigoProducto = p_codigoProducto;         
+         SET p_resultado = 2;
+         COMMIT;
+     END IF;
+
+     
+END;
+
+CREATE PROCEDURE SPR_I_VENTA(
+  IN  p_cliente   varchar(100),
+  IN  p_Array     varchar(200),
+  out p_resultado tinyint(1))
+BEGIN
+      DECLARE v_Ultimo int;
+      DECLARE Contador int default 0;
+      DECLARE v_codigoProducto int;
+      DECLARE v_cantidad int;
+      DECLARE v_descuento int;
+     
+      DECLARE EXIT HANDLER
+      FOR SQLEXCEPTION
+         BEGIN            
+             SET p_resultado = -1;
+             ROLLBACK;
+         END;
+      
+      START TRANSACTION; -- Inicia Grabado del Cliente
+      INSERT INTO venta(Cliente) VALUES (p_cliente);     
+      COMMIT;
+      SELECT LAST_INSERT_ID() INTO v_Ultimo;        
+      
+      WHILE (LOCATE(',', p_Array) > 0)
+      DO
+          SET @value = ELT(1, p_Array);
+          SET p_Array= SUBSTRING(p_Array, LOCATE(',',p_Array) + 1);
+          
+          set Contador = Contador + 1;
+          IF (Contador=1) then
+              SET v_codigoProducto = @value;
+          END IF;
+          IF (Contador=2) then
+              SET v_cantidad = @value;
+          END IF;
+          IF (Contador=3) then
+              SET v_descuento = @value;
+          END IF;
+          
+          IF (Contador=3) then
+              set  Contador=0;
+              START TRANSACTION; -- Inicia Grabado del Detalle de la venta
+              INSERT INTO detalleventa (codigoVenta,
+                                         codigoProducto,
+                                         cantidad,
+                                         descuento) 
+                                         VALUES(v_Ultimo,
+                                                v_codigoProducto,
+                                                v_cantidad,
+                                                v_descuento);
+              COMMIT;
+          END IF;
+      END WHILE;
+SET p_resultado = 1;
+END;
+
+CREATE PROCEDURE SPR_R_CONSULTAS(
+  p_tipo_Consulta varchar (50),
+  p_codigo  int)
+BEGIN
+     IF (p_tipo_Consulta = 'producto_all') THEN
+         SELECT * 
+         FROM producto 
+         ORDER BY nombre;
+     ELSEIF (p_tipo_Consulta = 'producto_one') THEN                  
+              SELECT *
+              FROM   producto
+              WHERE  codigoProducto = p_codigo;              
+     ELSEIF (p_tipo_Consulta = 'venta_all') THEN
+              SELECT
+              VT.codigoVenta AS CodigoVenta,
+              VT.cliente AS Cliente, 
+              VT.fecha AS Fecha,
+              DV.codigoProducto AS CodigoProducto, 
+              PD.nombre AS Nombre,
+              PD.precio AS Precio, 
+              DV.cantidad AS Cantidad,
+              DV.descuento AS Descuento,
+              PD.precio*DV.cantidad AS Parcial,
+              ((PD.precio*DV.cantidad)-DV.descuento) AS SubTotal,
+              (SELECT SUM((DTV.cantidad * PDT.precio)-DTV.descuento) AS TotalPagar
+              FROM DetalleVenta DTV
+              INNER JOIN Producto PDT ON PDT.codigoProducto = DTV.codigoProducto 
+              WHERE DTV.codigoVenta=VT.codigoVenta) AS TotalPagar
+          FROM Venta VT 
+              INNER JOIN DetalleVenta DV ON DV.codigoVenta = VT.codigoVenta  
+              INNER JOIN Producto PD ON PD.codigoProducto = DV.codigoProducto 
+          ORDER BY
+              CodigoVenta, Nombre;
+      END IF;
+ END;

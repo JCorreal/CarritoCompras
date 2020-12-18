@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="Maestro.xhtml">
+
+    
+    <ui:define name="content">
+       
+      
+        <h:form id="frmRegistarVenta" >
+                        
+                        <div>
+                              <h:inputText id="itMensajeError" value="#{Error.mensajeError}" readonly="true"  size="40" style=" border-style: none; color: red;"> </h:inputText>
+                              <p:messages id="messages"  autoUpdate="true"/>
+                        </div>
+                                             
+                        <h:outputText value="Cliente * "/>                       
+                        <p:inputText id="itCliente"         
+                                     value="#{RegistrarVentaMBean.venta.cliente}"                           
+                                     maxlength="50"    
+                                     size="50"
+                                     required="true"
+                                     requiredMessage="Debe ingresar el Cliente">
+                        </p:inputText>        
+                        &#160;
+                        <h:commandButton value="Registrar Venta" action="#{RegistrarVentaMBean.guardar}"/>                        
+                        
+                        <br></br>
+                        <br></br>
+             <div>     
+                 <h:outputText value="Carrito de Compras"/>
+                 <p:dataTable var="car" value="#{RegistrarVentaMBean.listadoGeneral}">
+
+                    <p:column headerText="Codigo">                       
+                         <h:outputText value="#{car.producto.codigoProducto}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre">                
+                         <h:outputText value="#{car.producto.nombre}" />
+                     </p:column>
+
+                    <p:column headerText="Cantidad">                
+                        <h:outputText value="#{car.cantidad}" />
+                    </p:column>
+
+                    <p:column headerText="Precio">         
+                         <h:outputText value="#{car.producto.precio}" />
+                    </p:column>
+
+                    <p:column headerText="Descuento">         
+                        <h:outputText value="#{car.descuento}" />
+                    </p:column>
+                     
+                    <p:column headerText="SubTotal">         
+                        <h:outputText value="#{car.producto.precio * car.cantidad-car.descuento}" />
+                     </p:column>
+
+                </p:dataTable>             
+              
+                       
+             </div> 
+        
+         </h:form>
+    </ui:define>
+</ui:composition>
