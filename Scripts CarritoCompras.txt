@@ -70,7 +70,9 @@ BEGIN
       DECLARE v_codigoProducto int;
       DECLARE v_cantidad int;
       DECLARE v_descuento int;
-     
+      DECLARE v_subtotal int;
+      DECLARE v_precio decimal (18,2);
+      
       DECLARE EXIT HANDLER
       FOR SQLEXCEPTION
          BEGIN            
@@ -94,12 +96,21 @@ BEGIN
           END IF;
           IF (Contador=2) then
               SET v_cantidad = @value;
+              -- Se calcula el descuento, donde si subtotal es mayor a 50 se le hace 
+              -- un descuento del 5%, aca es donde se encuentra la logica del negocio 
+              
+              SET v_precio = (SELECT PRECIO FROM producto WHERE codigoProducto = v_codigoProducto);
+              SET v_subtotal = (v_precio * v_cantidad);
+              IF (v_subtotal > 50) then
+                  SET v_descuento =  (v_subtotal * 0.05);
+              ELSE
+                  SET v_descuento =  0;
+              END IF;
+              
           END IF;
-          IF (Contador=3) then
-              SET v_descuento = @value;
-          END IF;
+        
           
-          IF (Contador=3) then
+          IF (Contador=2) then
               set  Contador=0;
               START TRANSACTION; -- Inicia Grabado del Detalle de la venta
               INSERT INTO detalleventa (codigoVenta,
