@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"  
+    template="Maestro.xhtml">
+
+    
+    <ui:define name="content">
+        
+      
+
+        <h:form id="frmIndex" >
+                 
+            <br></br>
+   
+             
+             <div>                       
+                 <h:outputText value="Lista de Productos"/>
+                  <p:dataGrid var="car" value="#{MenuMBean.listadoGeneral}" id="cars">                        
+                        <p:panel header="#{car.nombre}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <p:graphicImage library="Imagenes" name="#{car.foto}"/>
+                                    <h:outputText value="Precio: $ #{car.precio}" />
+                                     <h:commandButton value="Modificar" action="#{MenuMBean.forma('Modificar_Producto', car.codigoProducto)}"/>
+                                     &#160;
+                                     <h:commandButton value="Añadir" action="#{MenuMBean.forma('Anadir', car.codigoProducto)}"/>
+                                </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>   
+                
+                                  
+             </div> 
+         </h:form>
+   
+    </ui:define>
+</ui:composition>
