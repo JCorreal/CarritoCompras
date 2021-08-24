@@ -58,8 +58,8 @@ public class DetalleVentaMBean {
      /* Se calcula el descuento, donde si subtotal es mayor a 50 se le hace 
         un descuento del 5%, aca es donde se encuentra la logica del negocio 
         Esto, originalmente se estaba haciendo acá en el front, por lo menos
-        el ejmplo inicialmente loa hacía de esa forma, yo lo que hice fue comentar
-        este pedazo de código y hacerlo en directamente en BD
+        el ejemplo inicialmente lo hacía de esa forma, yo lo que hice fue comentar
+        este pedazo de código y hacerlo directamente en BD porque es más eficiente.
         
         double subTotal = producto.getPrecio() * detalleventa.getCantidad();
         if (subTotal > 50) {
