@@ -10,10 +10,7 @@ public class Funciones {
     private static ProductoBD productobd;
     private static VentaBD ventabd;
     public static String Pagina = null;        
-    public static String ParametroBuscar= null;    
-    public static String NombreUsuario;
-    public static String UsuarioConectado;
-    public static int PerfilAcceso = 0;
+    public static String ParametroBuscar= null;       
     public static String MensajePrecio = "Debe ingresar el precio";
     public static String MensajeGrabaProducto = "Se registro el producto de manera correcta";    
     public static String MensajeActualizaProducto = "Se actualizo el producto de manera correcta";
