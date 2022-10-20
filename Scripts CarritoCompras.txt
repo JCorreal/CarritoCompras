@@ -6,12 +6,13 @@ CREATE TABLE producto (
   precio decimal(18,2) NOT NULL,
   foto varchar(50) DEFAULT 'Default.jpg');
 
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Portatil',1500000,'Portatil.jpg');
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Impresora',419000,'Impresora.jpg');
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Teclado y Mouse',79500,'Combo.jpg');
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Diadema',25000,'Diadema.jpg');
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Monitor',500000,'Monitor.jpg');
-INSERT INTO producto (nombre, precio, Foto) VALUES ('Disco Solido',480000,'Disco.jpg');
+INSERT INTO producto (nombre, precio, Foto) VALUES 
+('Portatil',1500000,'Portatil.jpg'), 
+('Impresora',419000,'Impresora.jpg'),
+('Teclado y Mouse',79500,'Combo.jpg'),
+('Diadema',25000,'Diadema.jpg'),
+('Monitor',500000,'Monitor.jpg'),
+('Disco Solido',480000,'Disco.jpg');
  
 CREATE TABLE venta (
   codigoVenta int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
